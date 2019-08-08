@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 import static Elements.Globals.browser;
 import static Helpers.Login.login;
+import static Helpers.Utility.getPropertyValue;
 import static Helpers.Utility.log;
 import static Helpers.Utility.testFail;
 
@@ -42,9 +43,8 @@ public abstract class BaseTest {
     private String testPassword="";
     private static String testUrl = "";
     protected static String testClassName = "" ;
-
-
-
+    private String propertyFile ="automation_plugin.properties";
+    private boolean loginSuccess = false;
 
     @BeforeTest
     public void beforeTest() {
@@ -65,11 +65,10 @@ public abstract class BaseTest {
 //                browser.disableTutorialPopup();
 
             // login
-            Credentials credentials = getCredentials();
-            if (credentials != null) {
-                username = credentials.username();
-                password = credentials.password();
-            }
+
+            username = getPropertyValue(propertyFile, "array1.username");
+            password = getPropertyValue(propertyFile, "array1.password");
+
             loginSuccess = login(username, password);
             // log an issue if logging in wasn't successful
             if (loginSuccess) {
@@ -84,8 +83,7 @@ public abstract class BaseTest {
         }
     }
 
-    private Credentials getCredentials() {
-    }
+
 
 
 }
